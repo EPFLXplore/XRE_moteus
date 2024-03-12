@@ -197,6 +197,9 @@ FamilyAndVersion DetectMoteusFamily(MillisecondTimer* timer) {
     } else if (this_reading > 0xfe00) {
       // silk moteus r1.3
       result.hw_version = 1;
+    } else if ((this_reading > 0x7f00) && (this_reading < 0x8100)){
+      // amulet v1.0
+      result.hw_version = 2;
     } else {
       // Unknown version.
       result.hw_version = -1;
@@ -268,6 +271,10 @@ MoteusHwPins FindHardwarePins(FamilyAndVersion fv) {
     result.debug1 = PC_14;
     result.debug2 = PC_15;
   } else {
+    if (hv == 2) { // amulet v1.0
+      result.pwm1 = PA_2_ALT0;
+      result.pwm3 = PA_0_ALT0;
+    }
     result.drv8323_enable = PC_14;
     result.drv8323_hiz = PC_15;
     result.drv8323_cs = PB_0;

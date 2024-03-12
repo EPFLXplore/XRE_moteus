@@ -194,16 +194,18 @@ class Drv8323 : public MotorDriver {
           (g_measured_hw_rev <= 7) ? 50 :
           100) :
         g_measured_hw_family == 1 ?
-         150 :
-        invalid_int();
+         ((g_measured_hw_rev <= 1) ? 150 :
+          (g_measured_hw_rev <= 2) ? 150 : // amulet v1.0
+        invalid_int());
     uint16_t idriven_hs_ma =
         g_measured_hw_family == 0 ?
          ((g_measured_hw_rev <= 6) ? 740 :
           (g_measured_hw_rev <= 7) ? 100 :
           200) :
         g_measured_hw_family == 1 ?
-         300 :
-        invalid_int();
+         ((g_measured_hw_rev <= 1) ? 300 :
+          (g_measured_hw_rev <= 2) ? 300 : // amulet v1.0
+        invalid_int());
 
 
     // Gate Drive LS Register
@@ -215,16 +217,18 @@ class Drv8323 : public MotorDriver {
           (g_measured_hw_rev <= 7) ? 50 :
           100) :
         g_measured_hw_family == 1 ?
-         150 :
-        invalid_int();
+         ((g_measured_hw_rev <= 1) ? 150 :
+          (g_measured_hw_rev <= 2) ? 150 : // amulet v1.0
+        invalid_int());
     uint16_t idriven_ls_ma =
         g_measured_hw_family == 0 ?
          ((g_measured_hw_rev <= 6) ? 740 :
           (g_measured_hw_rev <= 7) ? 100 :
           200) :
         g_measured_hw_family == 1 ?
-         300 :
-        invalid_int();
+         ((g_measured_hw_rev <= 1) ? 300 :
+          (g_measured_hw_rev <= 2) ? 300 : // amulet v1.0
+        invalid_int());
 
 
     // OCP Control Register
@@ -235,8 +239,9 @@ class Drv8323 : public MotorDriver {
           (g_measured_hw_rev <= 7) ? 200 :
           50) :
         g_measured_hw_family == 1 ?
-         50 :
-        invalid_int();
+         ((g_measured_hw_rev <= 1) ? 50 :
+          (g_measured_hw_rev <= 2) ? 50 : // amulet v1.0
+        invalid_int());
     OcpMode ocp_mode = OcpMode::kLatchedFault;
     uint8_t ocp_deg_us = 4;  // valid options of 2, 4, 6, 8
 
@@ -249,8 +254,9 @@ class Drv8323 : public MotorDriver {
           (g_measured_hw_rev <= 7) ? 450 :
           700) :
         g_measured_hw_family == 1 ?
-         700 :
-        invalid_int();
+         ((g_measured_hw_rev <= 1) ? 700 :
+          (g_measured_hw_rev <= 2) ? 700 : // amulet v1.0
+        invalid_int());
 
 
     // CSA Control Register

@@ -219,7 +219,12 @@ int main(void) {
 
       // Family 0 uses a TCAN334GDCNT, which has a very low loop
       // delay.  Other families use chips with a longer loop delay.
-      options.delay_compensation = g_measured_hw_family != 0;
+      // Amulet v1.0 uses the TCAN1051HGVDRBRQ1, which also has very 
+      // low loop delay.
+      // options.delay_compensation = g_measured_hw_family != 0;
+      options.delay_compensation = g_measured_hw_family == 0 ? false :
+       (g_measured_hw_rev <= 1 ? true :
+       (g_measured_hw_rev <= 2 ? false : true)); // amulet v1.0
 
       options.tdc_offset = 13;  // 13 / 85MHz ~= 152ns
       options.tdc_filter = 2; // 2 / 85MHz ~= 23ns

@@ -422,14 +422,15 @@ struct BldcServoConfig {
 
   // PWM rise time compensation
   float pwm_comp_off =
-      g_measured_hw_family == 0 ?
-       ((g_measured_hw_rev <= 6) ? 0.015f :
-        (g_measured_hw_rev <= 7) ? 0.055f :
-        0.027f) :
-      g_measured_hw_family == 1 ?
-       0.027f :
-      invalid_float()
-      ;
+    g_measured_hw_family == 0 ?
+      ((g_measured_hw_rev <= 6) ? 0.015f :
+      (g_measured_hw_rev <= 7) ? 0.055f :
+      0.027f) :
+    g_measured_hw_family == 1 ?
+      ((g_measured_hw_rev <= 1) ? 0.027f :
+      (g_measured_hw_rev <= 2) ? 0.027f : // amulet v1.0
+      invalid_float())
+    ;
   float pwm_comp_mag =
       g_measured_hw_family == 0 ?
        ((g_measured_hw_rev <= 6) ? 0.005f :
@@ -446,8 +447,9 @@ struct BldcServoConfig {
       g_measured_hw_family == 0 ?
       ((g_measured_hw_rev <= 5) ? 37.0f : 46.0f) :
       g_measured_hw_family == 1 ?
-      56.0f :
-      invalid_float()
+      ((g_measured_hw_rev <= 1) ? 56.0f :
+       (g_measured_hw_rev <= 2) ? 46.0f : // amulet v1.0
+       invalid_float())
       ;
   float max_power_W = 450.0f;
 
@@ -527,8 +529,9 @@ struct BldcServoConfig {
       g_measured_hw_family == 0 ?
       ((g_measured_hw_rev <= 5) ? 34.5f : 43.5f) :
       g_measured_hw_family == 1 ?
-      53.0f :
-      invalid_float();
+      ((g_measured_hw_rev <= 1) ? 53.0f :
+       (g_measured_hw_rev <= 2) ? 43.5f :
+      invalid_float());
   float flux_brake_resistance_ohm = 0.025f;
 
   float max_current_A = 100.0f;
