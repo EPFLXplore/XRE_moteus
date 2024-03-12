@@ -271,7 +271,7 @@ MoteusHwPins FindHardwarePins(FamilyAndVersion fv) {
     result.debug1 = PC_14;
     result.debug2 = PC_15;
   } else {
-    if (hv == 2) { // amulet v1.0
+    if (hv == 2) { // amulet v1.0 has phases A and C flipped
       result.pwm1 = PA_2_ALT0;
       result.pwm3 = PA_0_ALT0;
     }

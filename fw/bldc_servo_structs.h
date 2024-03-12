@@ -530,7 +530,7 @@ struct BldcServoConfig {
       ((g_measured_hw_rev <= 5) ? 34.5f : 43.5f) :
       g_measured_hw_family == 1 ?
       ((g_measured_hw_rev <= 1) ? 53.0f :
-       (g_measured_hw_rev <= 2) ? 43.5f :
+       (g_measured_hw_rev <= 2) ? 43.5f : // amulet v1.0
       invalid_float());
   float flux_brake_resistance_ohm = 0.025f;
 
