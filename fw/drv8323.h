@@ -195,7 +195,7 @@ class Drv8323 : public MotorDriver {
           100) :
         g_measured_hw_family == 1 ?
          ((g_measured_hw_rev <= 1) ? 150 :
-          (g_measured_hw_rev <= 2) ? 150 : // amulet v1.0
+          (g_measured_hw_rev <= 2) ? 100 : // amulet v1.0
         invalid_int()) : invalid_int();
 
     uint16_t idriven_hs_ma =
@@ -205,7 +205,7 @@ class Drv8323 : public MotorDriver {
           200) :
         g_measured_hw_family == 1 ?
          ((g_measured_hw_rev <= 1) ? 300 :
-          (g_measured_hw_rev <= 2) ? 300 : // amulet v1.0
+          (g_measured_hw_rev <= 2) ? 200 : // amulet v1.0
         invalid_int()) : invalid_int();
 
 
