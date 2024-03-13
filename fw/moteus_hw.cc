@@ -197,7 +197,7 @@ FamilyAndVersion DetectMoteusFamily(MillisecondTimer* timer) {
     } else if (this_reading > 0xfe00) {
       // silk moteus r1.3
       result.hw_version = 1;
-    } else if ((this_reading > 0x7f00) && (this_reading < 0x8100)){
+    } else if ((this_reading > 0x7c00) && (this_reading < 0x7E00)){
       // amulet v1.0
       result.hw_version = 2;
     } else {
