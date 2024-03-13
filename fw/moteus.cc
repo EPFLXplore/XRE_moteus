@@ -35,6 +35,7 @@
 #include "fw/moteus_hw.h"
 #include "fw/system_info.h"
 #include "fw/uuid.h"
+#include "fw/measured_hw_rev.h"
 
 #if defined(TARGET_STM32G4)
 #include "fw/fdcan.h"
@@ -188,7 +189,8 @@ int main(void) {
   }
 
   // Turn on our power light.
-  DigitalOut power_led(g_hw_pins.power_led, 0);
+  DigitalOut power_led(g_hw_pins.power_led, 
+    ((g_measured_hw_family == 1) && (g_measured_hw_rev == 2)) ? 1 : 0); // amulet v1.0 LEDs are active high
 
   micro::SizedPool<20000> pool;
 

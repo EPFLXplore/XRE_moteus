@@ -29,6 +29,7 @@
 #include "fw/bootloader.h"
 #include "fw/drv8323.h"
 #include "fw/moteus_hw.h"
+#include "fw/measured_hw_rev.h"
 
 namespace base = mjlib::base;
 namespace micro = mjlib::micro;
@@ -344,7 +345,7 @@ class BoardDebug::Impl {
       bool* const led_state = (which_led == "1") ? &data_.led1 : &data_.led2;
       const bool value = (state != "0");
 
-      *led = !value;  // Our LEDs are active low.
+      *led = ((g_measured_hw_family == 1) && (g_measured_hw_rev == 2)) ? value : !value; // Amulet LEDs are active high
       *led_state = value;
       WriteOk(response);
 
@@ -969,8 +970,8 @@ class BoardDebug::Impl {
   Data data_;
   base::inplace_function<void()> data_update_;
 
-  DigitalOut led1_{g_hw_pins.debug_led1, 1};
-  DigitalOut led2_{g_hw_pins.power_led};
+  DigitalOut led1_{g_hw_pins.debug_led1, ((g_measured_hw_family == 1) && (g_measured_hw_rev == 2)) ? 0 : 1};
+  DigitalOut led2_{g_hw_pins.power_led, ((g_measured_hw_family == 1) && (g_measured_hw_rev == 2)) ? 1 : 0};
 
   multiplex::MicroServer* multiplex_protocol_;
   BldcServo* const bldc_;
