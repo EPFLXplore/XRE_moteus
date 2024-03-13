@@ -429,7 +429,7 @@ struct BldcServoConfig {
     g_measured_hw_family == 1 ?
       ((g_measured_hw_rev <= 1) ? 0.027f :
       (g_measured_hw_rev <= 2) ? 0.027f : // amulet v1.0
-      invalid_float())
+      invalid_float()) : invalid_float()
     ;
   float pwm_comp_mag =
       g_measured_hw_family == 0 ?
@@ -449,7 +449,7 @@ struct BldcServoConfig {
       g_measured_hw_family == 1 ?
       ((g_measured_hw_rev <= 1) ? 56.0f :
        (g_measured_hw_rev <= 2) ? 46.0f : // amulet v1.0
-       invalid_float())
+       invalid_float()) : invalid_float()
       ;
   float max_power_W = 450.0f;
 
@@ -531,7 +531,7 @@ struct BldcServoConfig {
       g_measured_hw_family == 1 ?
       ((g_measured_hw_rev <= 1) ? 53.0f :
        (g_measured_hw_rev <= 2) ? 43.5f : // amulet v1.0
-      invalid_float());
+      invalid_float()) : invalid_float();
   float flux_brake_resistance_ohm = 0.025f;
 
   float max_current_A = 100.0f;
