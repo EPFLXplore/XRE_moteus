@@ -226,7 +226,7 @@ int main(void) {
       // options.delay_compensation = g_measured_hw_family != 0;
       options.delay_compensation = g_measured_hw_family == 0 ? false :
        (g_measured_hw_rev <= 1 ? true :
-       (g_measured_hw_rev <= 2 ? false : // amulet v1.0
+       (g_measured_hw_rev <= 2 ? true : // amulet v1.0
        true)); 
 
       options.tdc_offset = 13;  // 13 / 85MHz ~= 152ns
