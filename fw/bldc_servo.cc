@@ -80,7 +80,7 @@ float BilinearRate(float offset, float mag, float val) {
   }
 }
 
-// From make_thermistor_table.py
+// From make_thermistor_table.py (47kOhm 4050K, 10kOhm bottom resistor)
 constexpr float g_thermistor_lookup[] = {
   -74.17f, // 0
   -11.36f, // 128
@@ -115,6 +115,43 @@ constexpr float g_thermistor_lookup[] = {
   161.02f, // 3840
   197.66f, // 3968
 };
+
+// From make_thermistor_table.py (10kOhm 3950K, 2kOhm bottom resistor)
+constexpr float g_thermistor_motor_lookup[] = {
+  -75.22f, // 0
+  -11.09f, // 128
+  2.17f, // 256
+  10.87f, // 384
+  17.62f, // 512
+  23.28f, // 640
+  28.26f, // 768
+  32.77f, // 896
+  36.96f, // 1024
+  40.91f, // 1152
+  44.70f, // 1280
+  48.37f, // 1408
+  51.96f, // 1536
+  55.51f, // 1664
+  59.06f, // 1792
+  62.62f, // 1920
+  66.23f, // 2048
+  69.92f, // 2176
+  73.72f, // 2304
+  77.67f, // 2432
+  81.81f, // 2560
+  86.19f, // 2688
+  90.89f, // 2816
+  95.99f, // 2944
+  101.60f, // 3072
+  107.90f, // 3200
+  115.15f, // 3328
+  123.73f, // 3456
+  134.36f, // 3584
+  148.40f, // 3712
+  169.14f, // 3840
+  208.27f, // 3968
+};
+
 
 template <typename Array>
 int MapConfig(const Array& array, int value) {
@@ -1080,12 +1117,31 @@ class BldcServo::Impl {
                 static_cast<float>(adc_raw - this_value) /
                 static_cast<float>(next_value - this_value);
           };
+      
+      constexpr size_t size_thermistor_motor_table =
+          sizeof(g_thermistor_motor_lookup) / sizeof(*g_thermistor_motor_lookup);
+
+      const auto calculate_temp_motor =
+          [&](uint16_t adc_raw) {
+            const size_t offset = std::max<size_t>(
+                1, std::min<size_t>(
+                    size_thermistor_motor_table - 2,
+                    adc_raw * size_thermistor_motor_table / adc_max));
+            const int16_t this_value = offset * adc_max / size_thermistor_motor_table;
+            const int16_t next_value = (offset + 1) * adc_max / size_thermistor_motor_table;
+            const float temp1 = g_thermistor_motor_lookup[offset];
+            const float temp2 = g_thermistor_motor_lookup[offset + 1];
+            return temp1 +
+                (temp2 - temp1) *
+                static_cast<float>(adc_raw - this_value) /
+                static_cast<float>(next_value - this_value);
+          };
 
       status_.fet_temp_C = calculate_temp(status_.adc_fet_temp_raw);
       ISR_UpdateFilteredValue(status_.fet_temp_C, &status_.filt_fet_temp_C, 0.01f);
 
       if (config_.enable_motor_temperature) {
-        status_.motor_temp_C = calculate_temp(status_.adc_motor_temp_raw);
+        status_.motor_temp_C = calculate_temp_motor(status_.adc_motor_temp_raw);
         ISR_UpdateFilteredValue(status_.motor_temp_C, &status_.filt_motor_temp_C, 0.01f);
       } else {
         status_.motor_temp_C = status_.filt_motor_temp_C = 0.0f;
