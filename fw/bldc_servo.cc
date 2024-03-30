@@ -1148,7 +1148,7 @@ class BldcServo::Impl {
         status_.motor_temp_C = status_.filt_motor_temp_C = 0.0f;
       }
 
-      if ((config_.enable_fan) && (config_.options.fan != NC)) {
+      if ((config_.enable_fan) && (options_.fan != NC)) {
         if (status_.fet_temp_C > config_.fan_turnon_temperature)
           fan_.write(1);
         else if (status_.fet_temp_C < config_.fan_turnoff_temperature)
