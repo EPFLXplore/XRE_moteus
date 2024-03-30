@@ -350,6 +350,7 @@ class BldcServo::Impl {
         tsense_sqr_(FindSqr(options.tsense)),
         msense_(options.msense),
         msense_sqr_(FindSqr(options.msense)),
+        fan_(options.fan, 0),
         debug_dac_(options.debug_dac),
 #ifdef MOTEUS_DEBUG_OUT
         debug_out_(options.debug_out),
@@ -1142,6 +1143,12 @@ class BldcServo::Impl {
 
       if (config_.enable_motor_temperature) {
         status_.motor_temp_C = calculate_temp_motor(status_.adc_motor_temp_raw);
+        if ((config_.enable_fan) && (config_.fan != NC)) {
+          if (config_.motor_temp_C > config_.fan_turnon_temperature)
+            fan_.write(1);
+          else if (status_.motor_temp_C < config.fan_turnoff_temperature)
+            fan_.write(0);
+        }
         ISR_UpdateFilteredValue(status_.motor_temp_C, &status_.filt_motor_temp_C, 0.01f);
       } else {
         status_.motor_temp_C = status_.filt_motor_temp_C = 0.0f;
@@ -2365,6 +2372,7 @@ class BldcServo::Impl {
   uint32_t tsense_sqr_ = {};
   AnalogIn msense_;
   uint32_t msense_sqr_ = {};
+  DigitalOut fan_;
 
   AnalogOut debug_dac_;
 

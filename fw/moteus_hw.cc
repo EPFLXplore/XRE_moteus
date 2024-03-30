@@ -275,6 +275,7 @@ MoteusHwPins FindHardwarePins(FamilyAndVersion fv) {
     if (hv == 2) { // amulet v1.0 has phases A and C flipped
       result.pwm1 = PA_2_ALT0;
       result.pwm3 = PA_0_ALT0;
+      result.fan = PD_2;
     }
     result.drv8323_enable = PC_14;
     result.drv8323_hiz = PC_15;
@@ -325,6 +326,13 @@ void MoteusEnsureOff() {
   gpio_t enable;
   gpio_init_out(&enable, moteus::g_hw_pins.drv8323_enable);
   gpio_write(&enable, 0);
+
+  // Disable fan
+  if (moteus::g_hw_pins.fan != NC) {
+    gpio_t fan;
+    gpio_init_out(&fan, moteus::g_hw_pins.fan);
+    gpio_write(&fan, 0);
+  }
 
   // We want to ensure that our primary interrupt is not running.
   // Which one it is could vary, so just turn them all off.
