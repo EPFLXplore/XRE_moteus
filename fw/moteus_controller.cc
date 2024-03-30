@@ -457,6 +457,7 @@ class MoteusController::Impl : public multiplex::MicroServer::Server {
             options.vsense = g_hw_pins.vsense;
             options.tsense = g_hw_pins.tsense;
             options.msense = g_hw_pins.msense;
+            options.fan = g_hw_pins.fan;
 
             options.debug_dac = g_hw_pins.debug_dac;
             options.debug_out = g_hw_pins.debug1;
