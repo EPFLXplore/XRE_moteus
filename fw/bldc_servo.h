@@ -55,6 +55,8 @@ class BldcServo {
     PinName tsense = NC;  // Must be sampled from ADC5
     PinName msense = NC;  // Must be sampled from ADC5/4
 
+    PinName fan = NC;
+
     PinName debug_dac = NC;
     PinName debug_out = NC;
     PinName debug_out2 = NC;
