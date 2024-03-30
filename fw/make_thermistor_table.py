@@ -17,18 +17,23 @@
 
 import math
 
-def temp(counts):
+def temp(counts, B, R_25, R_bot):
     v = 3.3 * max(1, counts) / 4096.0
-    B = 4050.0
-    R = 10000.0
 
-    r_t = 3.3 * R / v - R
-    return 1.0 / (1.0 / (273.15 + 25.0) + (1.0 / B) * math.log(r_t / 47000)) - 273.15
+    r_t = 3.3 * R_bot / v - R_bot
+    return 1.0 / (1.0 / (273.15 + 25.0) + (1.0 / B) * math.log(r_t / R_25)) - 273.15
 
 
 def main():
+    # For the onboard thermistor: 47kOhm 4050K
     for x in range(0, 4096, 128):
-        print("  {:.2f}f, // {}".format(temp(x), x))
+        print("  {:.2f}f, // {}".format(temp(x, 4050, 47000, 10000), x))
+
+    print("\n")
+
+    # For the RO100 motor: 10kOhm 3950k
+    for x in range(0, 4096, 128):
+        print("  {:.2f}f, // {}".format(temp(x, 3950, 10000, 2000), x))
 
 
 if __name__ == '__main__':
