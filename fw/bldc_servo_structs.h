@@ -463,6 +463,10 @@ struct BldcServoConfig {
   float motor_derate_temperature = 50.0f;
   float motor_fault_temperature = std::numeric_limits<float>::quiet_NaN();
 
+  bool enable_fan = false;
+  float fan_turnon_temperature = 60.0f;
+  float fan_turnoff_temperature = 50.0f;
+
   float velocity_threshold = 0.0f;
   float position_derate = 0.02f;
 
@@ -584,6 +588,9 @@ struct BldcServoConfig {
     a->Visit(MJ_NVP(enable_motor_temperature));
     a->Visit(MJ_NVP(motor_derate_temperature));
     a->Visit(MJ_NVP(motor_fault_temperature));
+    a->Visit(MJ_NVP(enable_fan));
+    a->Visit(MJ_NVP(fan_turnon_temperature));
+    a->Visit(MJ_NVP(fan_turnoff_temperature));
     a->Visit(MJ_NVP(velocity_threshold));
     a->Visit(MJ_NVP(position_derate));
     a->Visit(MJ_NVP(adc_cur_cycles));
