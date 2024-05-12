@@ -169,7 +169,7 @@ FamilyAndVersion DetectMoteusFamily(MillisecondTimer* timer) {
         }();
     result.hw_version = measured_hw_rev;
   } else if (result.family == 1) {
-    timer->wait_ms(20); // amulet v1.0 needs some time for VDDA/VREF+ to settle
+    // timer->wait_ms(20); // amulet v1.0 needs some time for VDDA/VREF+ to settle
     __HAL_RCC_ADC12_CLK_ENABLE();
 
     DisableAdc(ADC2);
