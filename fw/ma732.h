@@ -29,6 +29,7 @@ class MA732 {
   struct Options : public Stm32Spi::Options {
     uint16_t filter_us = 1024;
     uint8_t bct = 0;
+    aux::Spi::Config::Trim trim = aux::Spi::Config::kDisabled;
 
     Options(const Stm32Spi::Options& v) : Stm32Spi::Options(v) {}
   };
@@ -74,6 +75,10 @@ class MA732 {
 
     // FW = 0x0e
     if (SetRegister(0x0e, desired_filter)) { return true; }
+
+    // ETX/ETY = 0x03
+    if (SetRegister(0x03, (options.trim == kDisabled) ? 0x00 : 
+      (options.trim == kTrimX ? 0x01 : 0x02))) {return true; }
 
     // BCT = 0x02
     if (SetRegister(0x02, options.bct)) { return true; }

@@ -40,12 +40,20 @@ struct Spi {
     uint16_t filter_us = 64;
     uint8_t bct = 0;
 
+    enum Trim {
+      kDisabled,
+      kTrimX,
+      kTrimY,
+    };
+    Trim trim = kDisabled;
+
     template <typename Archive>
     void Serialize(Archive* a) {
       a->Visit(MJ_NVP(mode));
       a->Visit(MJ_NVP(rate_hz));
       a->Visit(MJ_NVP(filter_us));
       a->Visit(MJ_NVP(bct));
+      a->Visit(MJ_NVP(trim));
     }
   };
   struct Status {
@@ -437,6 +445,20 @@ struct IsEnum<moteus::aux::Spi::Config::Mode> {
         { M::kAs5047, "ext_as5047" },
         { M::kIcPz, "ic_pz" },
         { M::kMa732, "ma732" },
+      }};
+  }
+};
+
+template <>
+struct IsEnum<moteus::aux::Spi::Config::Trim> {
+  static constexpr bool value = true;
+
+  using M = moteus::aux::Spi::Config::Trim;
+  static std::array<std::pair<M, const char*>, M::3> map() {
+    return {{
+        { M::kDisabled, "disabled" },
+        { M::kTrimX, "x" },
+        { M::kTrimY, "y" },
       }};
   }
 };
