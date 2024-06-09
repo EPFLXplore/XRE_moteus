@@ -75,7 +75,7 @@ class MA732 {
     // FW = 0x0e
     if (SetRegister(0x0e, desired_filter)) { return true; }
 
-    // BCT = 0x01
+    // BCT = 0x02
     if (SetRegister(0x02, options.bct)) { return true; }
 
     return false;
