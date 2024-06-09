@@ -464,21 +464,6 @@ struct IsEnum<moteus::aux::Spi::Config::Trim> {
 };
 
 template <>
-struct IsEnum<moteus::aux::Pin::Pull> {
-  static constexpr bool value = true;
-
-  using P = moteus::aux::Pin::Pull;
-  static std::array<std::pair<P, const char*>, 4> map() {
-    return {{
-        { P::kNone, "none" },
-        { P::kPullUp, "pull_up" },
-        { P::kPullDown, "pull_down" },
-        { P::kOpenDrain, "open_drain" },
-      }};
-  }
-};
-
-template <>
 struct IsEnum<moteus::aux::UartEncoder::Config::Mode> {
   static constexpr bool value = true;
 
