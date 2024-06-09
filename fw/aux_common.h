@@ -454,7 +454,7 @@ struct IsEnum<moteus::aux::Spi::Config::Trim> {
   static constexpr bool value = true;
 
   using T = moteus::aux::Spi::Config::Trim;
-  static std::array<std::pair<P, const char*>, 3> map() {
+  static std::array<std::pair<T, const char*>, 3> map() {
     return {{
         { M::kNone, "disabled" },
         { M::kTrimX, "x" },
