@@ -41,11 +41,11 @@ struct Spi {
     uint8_t bct = 0;
 
     enum Trim {
-      kDisabled,
+      kNone,
       kTrimX,
       kTrimY,
     };
-    Trim trim = kDisabled;
+    Trim trim = kNone;
 
     template <typename Archive>
     void Serialize(Archive* a) {
@@ -453,12 +453,27 @@ template <>
 struct IsEnum<moteus::aux::Spi::Config::Trim> {
   static constexpr bool value = true;
 
-  using M = moteus::aux::Spi::Config::Trim;
-  static std::array<std::pair<M, const char*>, M::3> map() {
+  using T = moteus::aux::Spi::Config::Trim;
+  static std::array<std::pair<P, const char*>, 3> map() {
     return {{
-        { M::kDisabled, "disabled" },
+        { M::kNone, "disabled" },
         { M::kTrimX, "x" },
         { M::kTrimY, "y" },
+      }};
+  }
+};
+
+template <>
+struct IsEnum<moteus::aux::Pin::Pull> {
+  static constexpr bool value = true;
+
+  using P = moteus::aux::Pin::Pull;
+  static std::array<std::pair<P, const char*>, 4> map() {
+    return {{
+        { P::kNone, "none" },
+        { P::kPullUp, "pull_up" },
+        { P::kPullDown, "pull_down" },
+        { P::kOpenDrain, "open_drain" },
       }};
   }
 };
