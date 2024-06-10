@@ -80,6 +80,7 @@ struct UartEncoder {
     enum Mode {
       kDisabled,
       kAksim2,
+      kOrbis,
       kTunnel,
       kDebug,
       kCuiAmt21,
@@ -111,6 +112,11 @@ struct UartEncoder {
     bool aksim2_err = false;
     bool aksim2_warn = false;
     uint16_t aksim2_status = 0;
+
+    bool orbis_err = false;
+    bool orbis_warn = false;
+    uint16_t orbis_status = 0;
+
     uint16_t checksum_errors = 0;
 
     template <typename Archive>
@@ -122,6 +128,11 @@ struct UartEncoder {
       a->Visit(MJ_NVP(aksim2_err));
       a->Visit(MJ_NVP(aksim2_warn));
       a->Visit(MJ_NVP(aksim2_status));
+
+      a->Visit(MJ_NVP(orbis_err));
+      a->Visit(MJ_NVP(orbis_warn));
+      a->Visit(MJ_NVP(orbis_status));
+
       a->Visit(MJ_NVP(checksum_errors));
     }
   };
@@ -473,6 +484,7 @@ struct IsEnum<moteus::aux::UartEncoder::Config::Mode> {
     return {{
         { M::kDisabled, "disabled" },
         { M::kAksim2, "aksim2" },
+        { M::kOrbis, "orbis" },
         { M::kTunnel, "tunnel" },
         { M::kDebug, "debug" },
         { M::kCuiAmt21, "cui_amt21" },
