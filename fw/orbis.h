@@ -84,7 +84,7 @@ class Orbis {
          (buffer_[2] << 0)) >> 2;
     status->orbis_warn = buffer_[2] & 0x01;
     status->orbis_err = buffer_[2] & 0x02;
-    status->orbis_status = buffer_[4];
+    status->orbis_status = buffer_[3];
 
     status->nonce++;
     // The reported error is active low.
